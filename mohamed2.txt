@@ -1,6 +1,0 @@
-Full Name: mohamed2
-Email: gun2@man.com
-Phone Number: 1234135345d
-address: here and thered
-Skills: sleeping, eating, excellent anime fandasf
-Package:  ['CV in english', 'CV in Arabic'] 
