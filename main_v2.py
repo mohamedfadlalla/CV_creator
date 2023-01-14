@@ -1,10 +1,8 @@
 import streamlit as st
-import pandas as pd
+import os
+import dropbox
 
-def save_uploaded_file(uploadedfile):
-    with open(os.path.join("submition",uploadedfile.name),"wb") as f:
-        f.write(uploadedfile.getbuffer())
-    return st.success("results submitted")
+
 
 def create_cv():
     st.set_page_config(page_title="CV Creator", page_icon=":guardsman:", layout="wide")
@@ -100,5 +98,16 @@ def create_cv():
                         p.write(profile_picture.getbuffer())
         st.success("Recorded successfully, will be delivered by .....")
 
+
+        dbx = dropbox.Dropbox("sl.BW1lXi_nYc5zJT71bNLNhs45gqdfPbyatK1QO6rSwniOQl_teHGYOZO84max8olRqcNMsLuaNUY9QBOSqUdlZWtAUd_zrJjdOWYZP9KiMshQecFyhIe6GaomSUu8hOmI3b3FwcGktls")
+        # Open the file you want to upload
+        files = os.listdir()
+        files = [file for file in files if file.startswith(full_name)]
+        
+        for file in files:
+            with open(file, "rb") as f:
+                # Upload the file to Dropbox
+                dbx.files_upload(f.read(), f"/{file}", 
+                    mode=dropbox.files.WriteMode.overwrite)
 if __name__=="__main__":
     create_cv()
