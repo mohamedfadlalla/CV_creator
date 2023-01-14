@@ -68,7 +68,7 @@ def create_cv():
     # templates
     expander = st.expander("template")    
     with expander:
-        Level = st.selectbox("Choose a template", ['1','2', '3','4'])        
+        template = st.selectbox("Choose a template", ['1','2', '3','4'])        
         col1, col2 = st.columns(2)
         col1.image('images/1.jpeg',caption=1, use_column_width=True)
         col2.image('images/2.jpeg',caption=2, use_column_width=True)
@@ -97,6 +97,8 @@ def create_cv():
                 f.write("Skills: " + skills + "\n")            
             if expander.expanded:
                 f.write(f"Package:  {package} \n")
+                f.write(f"template:  {template} \n")
+
 
             if expander.expanded:
                 if profile_picture:
