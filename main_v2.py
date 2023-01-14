@@ -1,8 +1,15 @@
 import streamlit as st
+import filestack
 import os
-import dropbox
 
+total = 0
+sp = 7*'#'
 
+def get_total(package):
+    if len(package) == 1:
+        return 800
+    elif len(package) == 2:
+        return 1500
 
 def create_cv():
     st.set_page_config(page_title="CV Creator", page_icon=":guardsman:", layout="wide")
@@ -61,7 +68,7 @@ def create_cv():
             # Every form must have a submit button.
             submitted = st.form_submit_button("submit")
             if submitted:
-                with open(full_name+'Langauge.txt', "a+") as f:
+                with open(full_name+'_Langauge.txt', "a+") as f:
                     f.write(f'{Langauge},{Level}\n')
                 st.write("Submit successfully, submit another if you want!")
 
@@ -83,12 +90,9 @@ def create_cv():
     expander = st.expander("package")    
     with expander:
         package = st.multiselect("Package", ['CV in english', 'CV in Arabic'])
-        # if package:
-        #     st.write('your total is 1500SDG')
-        #     st.write('send it to this notification to 123345626')
-        #     st.
-
-
+        st.write(package)
+        if package:
+            total = get_total(package)
 
     if st.button("Submit data"):
         with open(f"{full_name}.txt", "w") as f:
@@ -100,8 +104,33 @@ def create_cv():
             if expander.expanded:
                 f.write("Skills: " + skills + "\n")            
             if expander.expanded:
-                f.write(f"Package:  {package} \n")
+                f.write(f"Packages:  {package} \n")
                 f.write(f"template:  {template} \n")
+            #submit education
+            if expander.expanded:
+                try:
+                    f.write(f'{sp}Education section{sp}\n')
+                    f.write(open(full_name+'_education.txt').read())
+                    f.write(f'{sp}{sp}{sp}\n')
+
+                except FileNotFoundError:
+                    f.write(f'{sp}\nNo Langauge\n{sp}\n\n')
+
+            if expander.expanded:
+                try:
+                    f.write(f'{sp}Education section{sp}\n')
+                    f.write(open(full_name+'_Langauge.txt').read())
+                    f.write(f'{sp}{sp}{sp}\n')
+                except FileNotFoundError:
+                    f.write(f'{sp}\nNo Langauge\n{sp}\n\n')
+
+            if expander.expanded:
+                try:
+                    f.write(f'{sp}Education section{sp}\n')
+                    f.write(open(full_name+'_Experience.txt').read())
+                    f.write(f'{sp}{sp}{sp}\n')
+                except FileNotFoundError:
+                    f.write(f'{sp}\nNo Langauge\n{sp}\n\n')
 
 
             if expander.expanded:
@@ -110,26 +139,31 @@ def create_cv():
                     with open(file,"wb") as p:
                         p.write(profile_picture.getbuffer())
 
-        dbx = dropbox.Dropbox(st.secrets["DROPBOX"])
-        # list files needed to be uploaded
-        files = os.listdir()
-        files = [file for file in files if file.startswith(full_name)]
+
+
+        APIKEY = st.secrets["FILESTACK"]
+        client = filestack.Client(APIKEY)
+
+        store_params = {
+            'location': 's3', 
+            'path': 'folder/subfolder/',
+            'upload_tags': {
+                  "foo":"bar"
+            }
+        }
         
         # Upload files
         with st.spinner('Processing..'):
-            for file in files:
-                with open(file, "rb") as f:
-                    # Upload the file to Dropbox
-                    dbx.files_upload(f.read(), f"/{file}", 
-                        mode=dropbox.files.WriteMode.overwrite)
-        st.success("Order received contact us for confirmation at 0125836305")
+            # Upload the file to filestack
+            filelink = client.upload(filepath=f'{full_name}_.txt', store_params=store_params)
+            try:
+                filelink = client.upload(filepath=f'{file}.txt', store_params=store_params)
+            except:
+                print('no picture')
+        st.success(f"Your total is **{total}** SDG")
+        st.success("Order received contact us in whatsapp for confirmation at 0125836305")
+
+
 
 if __name__=="__main__":
     create_cv()
-    st.success("Your total is **1500** SDG")
-
-    st.success("Order received contact us in whatsapp for confirmation at 0125836305")
-
-
-
-#write 3 to 5 polits points of desicriptoin
