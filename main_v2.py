@@ -18,31 +18,31 @@ def create_cv():
         address = st.text_input("address")
 
     # Skills
-    expander = st.expander("مهاراتك ")
+    expander = st.expander("Skills")
     with expander:
-        skills = st.text_area("أدخل مهاراتك مفصولة بفواصل")
+        skills = st.text_area("Enter your skills separated by commas")
 
     expander = st.expander("Education")    
     with expander:
         #Education
-        with st.form("تعليم", clear_on_submit=True):
-            degree = st.selectbox("الدرجة العلمية", ['Course','Primary school', 'bachelor degree','master degree', 'PhD'])
-            field_of_study = st.text_input("مجال الدراسة")
-            school_name = st.text_input("اسم المدرسة / الجامعة")
-            graduation_year = st.date_input("سنة التخرج")
+        with st.form("education", clear_on_submit=True):
+            degree = st.selectbox("Degree", ['Course','Primary school', 'bachelor degree','master degree', 'PhD'])
+            field_of_study = st.text_input("Field of Study")
+            school_name = st.text_input("School/University Name")
+            graduation_year = st.date_input("Graduation Year")
             # Every form must have a submit button.
-            submitted = st.form_submit_button("إرسال")
+            submitted = st.form_submit_button("submit")
             if submitted:
                 with open(full_name+'_education.txt', "a+") as f:
                     f.write(f'{degree},{field_of_study},{school_name},{graduation_year}\n')
                 st.write("Submit successfully, submit another if you want!")
-
+ 
     expander = st.expander("Experience")    
     with expander:
         #Experience/Occupation
-        with st.form("خبرة", clear_on_submit=True):
-            occupation = st.text_input("المسمى الوظيفي")
-            company = st.text_input("شركة")
+        with st.form("Experience", clear_on_submit=True):
+            occupation = st.text_input("Occupation")
+            company = st.text_input("Company")
             job_description = st.text_area("Job Description")
             start_date = st.date_input("Start Date")
             end_date = st.date_input("End Date (Leave blank if currently employed)")

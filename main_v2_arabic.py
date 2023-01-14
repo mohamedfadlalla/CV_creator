@@ -10,7 +10,7 @@ def create_cv():
     st.title("CV Creator")
 
     # Basic Information
-    expander = st.expander("Basic Information")
+    expander = st.expander("�������� �������")
     with expander:
         full_name = st.text_input("Full Name")
         email = st.text_input("Email")
@@ -18,57 +18,59 @@ def create_cv():
         address = st.text_input("address")
 
     # Skills
-    expander = st.expander("Skills")
+    expander = st.expander("مهاراتك ")
     with expander:
-        skills = st.text_area("Enter your skills separated by commas")
+        skills = st.text_area("أدخل مهاراتك مفصولة بفواصل")
 
     expander = st.expander("Education")    
     with expander:
         #Education
-        with st.form("education", clear_on_submit=True):
-            degree = st.selectbox("Degree", ['Course','Primary school', 'bachelor degree','master degree', 'PhD'])
-            field_of_study = st.text_input("Field of Study")
-            school_name = st.text_input("School/University Name")
-            graduation_year = st.date_input("Graduation Year")
-            # Every form must have a submit button.
-            submitted = st.form_submit_button("submit")
+        with st.form("تعليم", clear_on_submit=True):
+            degree = st.selectbox("الدرجة العلمية", ['Course','Primary school', 'bachelor degree','master degree', 'PhD'])
+            field_of_study = st.text_input("مجال الدراسة")
+            school_name = st.text_input("اسم المدرسة / الجامعة")
+            graduation_year = st.date_input("سنة التخرج")
+            # Every form must have a إرسال button.
+            submitted= st.form_submit_button("Submit")
             if submitted:
                 with open(full_name+'_education.txt', "a+") as f:
                     f.write(f'{degree},{field_of_study},{school_name},{graduation_year}\n')
-                st.write("Submit successfully, submit another if you want!")
+                st.write("إرسال successfully, إرسال another if you want!")
 
     expander = st.expander("Experience")    
     with expander:
         #Experience/Occupation
-        with st.form("Experience", clear_on_submit=True):
-            occupation = st.text_input("Occupation")
-            company = st.text_input("Company")
-            job_description = st.text_area("Job Description")
-            start_date = st.date_input("Start Date")
-            end_date = st.date_input("End Date (Leave blank if currently employed)")
-            # Every form must have a submit button.
+        with st.form("خبرة", clear_on_submit=True):
+            occupation = st.text_input("المسمى الوظيفي")
+            company = st.text_input("شركة")
+            job_description = st.text_area("")
+            start_date = st.date_input("تاريخ البدء")
+            end_date = st.date_input("تاريخ الانتهاء")
+            # Every form must have a إرسال button.
             submitted = st.form_submit_button("submit")
+            
             if submitted:
                 with open(full_name+'_Experience.txt', "a+") as f:
                     f.write(f'{occupation},{company},{job_description},{start_date},{end_date}\n')
-                st.write("Submit successfully, submit another if you want!")
+                st.write("إرسال successfully, إرسال another if you want!")
+    
     expander = st.expander("langauge")    
     with expander:
         #langauge
         with st.form("Langauge", clear_on_submit=True):
             Langauge = st.text_input("Langauge")
             Level = st.selectbox("Degree", ['Beginner','Elementary', 'Intermediate','Advance', 'Native'])
-            # Every form must have a submit button.
-            submitted = st.form_submit_button("submit")
-            if submitted:
+            # Every form must have a إرسال button.
+            submited = st.form_submit_button("إرسال")
+            if submited:
                 with open(full_name+'Langauge.txt', "a+") as f:
                     f.write(f'{Langauge},{Level}\n')
-                st.write("Submit successfully, submit another if you want!")
+                st.write("")
 
     # templates
     expander = st.expander("template")    
     with expander:
-        template = st.selectbox("Choose a template", ['1','2', '3','4'])        
+        template = st.selectbox("Choose a template", ['1','2', '3','4'])  
         col1, col2 = st.columns(2)
         col1.image('images/1.jpeg',caption=1, use_column_width=True)
         col2.image('images/2.jpeg',caption=2, use_column_width=True)
@@ -78,11 +80,11 @@ def create_cv():
     # Profile Picture
     expander = st.expander("Profile Picture")
     with expander:
-        profile_picture = st.file_uploader("Upload your profile picture", type=["jpg", "jpeg", "png"])
+        profile_picture = st.file_uploader("Picture", type=["jpg", "jpeg", "png"])
     
     expander = st.expander("package")    
     with expander:
-        package = st.multiselect("Package", ['CV in english', 'CV in Arabic'])
+        package = st.multiselect("", ["CV in Arabic", "CV in English"])
         # if package:
         #     st.write('your total is 1500SDG')
         #     st.write('send it to this notification to 123345626')
@@ -90,7 +92,7 @@ def create_cv():
 
 
 
-    if st.button("Submit data"):
+    if st.button("إرسال data"):
         with open(f"{full_name}.txt", "w") as f:
             if expander.expanded:
                 f.write("Full Name: " + full_name + "\n")
@@ -122,13 +124,13 @@ def create_cv():
                     # Upload the file to Dropbox
                     dbx.files_upload(f.read(), f"/{file}", 
                         mode=dropbox.files.WriteMode.overwrite)
+        st.success("Your total is **1500** SDG")
         st.success("Order received contact us for confirmation at 0125836305")
+        
+
 
 if __name__=="__main__":
     create_cv()
-    st.success("Your total is **1500** SDG")
-
-    st.success("Order received contact us in whatsapp for confirmation at 0125836305")
 
 
 
