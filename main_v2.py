@@ -97,8 +97,7 @@ def create_cv():
                     with open(file,"wb") as p:
                         p.write(profile_picture.getbuffer())
 
-
-        dbx = dropbox.Dropbox("sl.BW1lXi_nYc5zJT71bNLNhs45gqdfPbyatK1QO6rSwniOQl_teHGYOZO84max8olRqcNMsLuaNUY9QBOSqUdlZWtAUd_zrJjdOWYZP9KiMshQecFyhIe6GaomSUu8hOmI3b3FwcGktls")
+        dbx = dropbox.Dropbox(st.secrets["DROPBOX"])
         # Open the file you want to upload
         files = os.listdir()
         files = [file for file in files if file.startswith(full_name)]
@@ -109,6 +108,6 @@ def create_cv():
                 dbx.files_upload(f.read(), f"/{file}", 
                     mode=dropbox.files.WriteMode.overwrite)
         st.success("Recorded successfully, will be delivered by .....")
-        
+
 if __name__=="__main__":
     create_cv()
