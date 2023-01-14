@@ -96,7 +96,6 @@ def create_cv():
                     file = f"{full_name}.{profile_picture.name.split('.')[-1]}"
                     with open(file,"wb") as p:
                         p.write(profile_picture.getbuffer())
-        st.success("Recorded successfully, will be delivered by .....")
 
 
         dbx = dropbox.Dropbox("sl.BW1lXi_nYc5zJT71bNLNhs45gqdfPbyatK1QO6rSwniOQl_teHGYOZO84max8olRqcNMsLuaNUY9QBOSqUdlZWtAUd_zrJjdOWYZP9KiMshQecFyhIe6GaomSUu8hOmI3b3FwcGktls")
@@ -109,5 +108,7 @@ def create_cv():
                 # Upload the file to Dropbox
                 dbx.files_upload(f.read(), f"/{file}", 
                     mode=dropbox.files.WriteMode.overwrite)
+        st.success("Recorded successfully, will be delivered by .....")
+        
 if __name__=="__main__":
     create_cv()
