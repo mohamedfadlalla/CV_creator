@@ -155,9 +155,9 @@ def create_cv():
         # Upload files
         with st.spinner('Processing..'):
             # Upload the file to filestack
-            filelink = client.upload(filepath=f'{full_name}_.txt', store_params=store_params)
+            filelink = client.upload(filepath=f'{full_name}.txt', store_params=store_params)
             try:
-                filelink = client.upload(filepath=f'{file}.txt', store_params=store_params)
+                filelink = client.upload(filepath=f'{file}', store_params=store_params)
             except:
                 print('no picture')
         st.success(f"Your total is **{total}** SDG")
