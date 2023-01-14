@@ -65,8 +65,15 @@ def create_cv():
                     f.write(f'{Langauge},{Level}\n')
                 st.write("Submit successfully, submit another if you want!")
 
-
-
+    # templates
+    expander = st.expander("template")    
+    with expander:
+        Level = st.selectbox("Choose a template", ['1','2', '3','4'])        
+        col1, col2 = st.columns(2)
+        col1.image('images/1.jpeg',caption=1, use_column_width=True)
+        col2.image('images/2.jpeg',caption=2, use_column_width=True)
+        col1.image('images/3.jpeg',caption=3, use_column_width=True)
+        col2.image('images/4.jpeg',caption=4, use_column_width=True)
 
     # Profile Picture
     expander = st.expander("Profile Picture")
@@ -98,15 +105,17 @@ def create_cv():
                         p.write(profile_picture.getbuffer())
 
         dbx = dropbox.Dropbox(st.secrets["DROPBOX"])
-        # Open the file you want to upload
+        # list files needed to be uploaded
         files = os.listdir()
         files = [file for file in files if file.startswith(full_name)]
         
-        for file in files:
-            with open(file, "rb") as f:
-                # Upload the file to Dropbox
-                dbx.files_upload(f.read(), f"/{file}", 
-                    mode=dropbox.files.WriteMode.overwrite)
+        # Upload files
+        with st.spinner('Processing..'):
+            for file in files:
+                with open(file, "rb") as f:
+                    # Upload the file to Dropbox
+                    dbx.files_upload(f.read(), f"/{file}", 
+                        mode=dropbox.files.WriteMode.overwrite)
         st.success("Recorded successfully, will be delivered by .....")
 
 if __name__=="__main__":
