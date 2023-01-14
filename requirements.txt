@@ -1,1 +1,1 @@
-filestack
+filestack-python
