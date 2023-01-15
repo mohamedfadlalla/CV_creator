@@ -175,6 +175,7 @@ def create_cv():
                 filelink = client.upload(filepath=f'{file}', store_params=store_params)
             except:
                 print('no picture')
+        total = 0
         st.success(f"Your total is **{total}** SDG")
         st.success("تم استلام الطلب ، اتصل بنا على الواتساب للتأكيد 0125836305")
 
