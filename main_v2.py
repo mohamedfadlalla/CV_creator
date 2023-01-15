@@ -28,6 +28,13 @@ def create_cv():
             """
     st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
+    expander = st.expander("الخدمة")    
+    with expander:
+        package = st.multiselect("Package", ['CV in english', 'CV in Arabic'])
+  
+        if package:
+            total = get_total(package)
+
 
     # Basic Information
     expander = st.expander("معلومات اساسية")
@@ -62,15 +69,16 @@ def create_cv():
         #Experience/Occupation
         with st.form("الخبرة", clear_on_submit=True):
             occupation = st.text_input("المسمي الوظيفي")
-            company = st.text_input("الشركوة / المواسسة")
-            job_description = st.text_area("وصف العمل")
+            company = st.text_input("الشركة / المواسسة")
+            job_description = st.text_area("تكلم في ما لا يقل عن ثلاث نقاط عن مهام وظيفتك")
             start_date = st.date_input("تاريخ البداْ")
-            end_date = st.date_input("تاريخ الانتهاء")
+            work_here = st.checkbox("أعمل هنا")
+            end_date = st.date_input("تاريخ الانتهاْ (دعه فارغا اذا كنت تعمل هتا)")
             # Every form must have a submit button.
             submitted = st.form_submit_button("حفظ")
             if submitted:
                 with open(full_name+'_Experience.txt', "a+") as f:
-                    f.write(f'{occupation},{company},{job_description},{start_date},{end_date}\n')
+                    f.write(f'{occupation},{company},{job_description},{start_date},{work_here},{end_date}\n')
                 st.write("Submit successfully, submit another if you want!")
     expander = st.expander("اللغة")    
     with expander:
@@ -84,6 +92,20 @@ def create_cv():
                 with open(full_name+'_Langauge.txt', "a+") as f:
                     f.write(f'{Langauge},{Level}\n')
                 st.write("Submit successfully, submit another if you want!")
+    
+    expander = st.expander("عنك")    
+    with expander:
+        #self
+        aself = st.text_input("تكلم عن نفسك واهتماماتك")
+    
+
+
+    # templates
+    expander = st.expander("Linkedin")    
+    with expander: 
+        linkedin = st.text_input("ادخل رابط صفحتك علي اللينكدان")   
+
+
 
     # templates
     expander = st.expander("النماذج")    
@@ -97,17 +119,18 @@ def create_cv():
         col1.image('images/5.jpeg',caption="5 word formate", use_column_width=True)
         col2.image('images/6.jpeg',caption="6 word formate", use_column_width=True)
 
+    #Others
+    expander = st.expander("أخري")    
+    with expander:
+        #self
+        Other= st.text_input("ادخل اي اضافات اخري ")
+
     # Profile Picture
     expander = st.expander("ارفع صورتك الشخصية")
     with expander:
         profile_picture = st.file_uploader("Upload your profile picture", type=["jpg", "jpeg", "png"])
     
-    expander = st.expander("الخدمة")    
-    with expander:
-        package = st.multiselect("Package", ['CV in english', 'CV in Arabic'])
-  
-        if package:
-            total = get_total(package)
+
 
     if st.button("ارسل البيانات"):
         with open(f"{full_name}.txt", "w") as f:
@@ -129,11 +152,11 @@ def create_cv():
                     f.write(f'{sp}{sp}{sp}\n')
 
                 except FileNotFoundError:
-                    f.write(f'{sp}\nNo Langauge\n{sp}\n\n')
+                    f.write(f'{sp}\nNo Education\n{sp}\n\n')
 
             if expander.expanded:
                 try:
-                    f.write(f'{sp}Education section{sp}\n')
+                    f.write(f'{sp}Langauge section{sp}\n')
                     f.write(open(full_name+'_Langauge.txt').read())
                     f.write(f'{sp}{sp}{sp}\n')
                 except FileNotFoundError:
@@ -141,13 +164,27 @@ def create_cv():
 
             if expander.expanded:
                 try:
-                    f.write(f'{sp}Education section{sp}\n')
+                    f.write(f'{sp}Experience section{sp}\n')
                     f.write(open(full_name+'_Experience.txt').read())
                     f.write(f'{sp}{sp}{sp}\n')
                 except FileNotFoundError:
-                    f.write(f'{sp}\nNo Langauge\n{sp}\n\n')
+                    f.write(f'{sp}\nNo Experience \n{sp}\n\n')
 
+            try:
+                f.write(f'{sp}Other section{sp}\n')
+                f.write(other)
+                f.write(f'{sp}{sp}{sp}\n')
+            except FileNotFoundError:
+                f.write(f'{sp}\nNo section \n{sp}\n\n')            
 
+            try:
+                f.write(f'{sp}Self section{sp}\n')
+                f.write(aself)
+                f.write(f'{sp}{sp}{sp}\n')
+            except FileNotFoundError:
+                f.write(f'{sp}\nNo Self \n{sp}\n\n')
+
+            
             if expander.expanded:
                 if profile_picture:
                     file = f"{full_name}.{profile_picture.name.split('.')[-1]}"
