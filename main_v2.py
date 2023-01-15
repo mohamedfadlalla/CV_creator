@@ -88,12 +88,14 @@ def create_cv():
     # templates
     expander = st.expander("النماذج")    
     with expander:
-        template = st.selectbox("اختر النموذج", ['1','2', '3','4'])        
+        template = st.selectbox("اختر النموذج", ['1','2', '3','4', '5', '6'])        
         col1, col2 = st.columns(2)
         col1.image('images/1.jpeg',caption=1, use_column_width=True)
         col2.image('images/2.jpeg',caption=2, use_column_width=True)
         col1.image('images/3.jpeg',caption=3, use_column_width=True)
         col2.image('images/4.jpeg',caption=4, use_column_width=True)
+        col1.image('images/5.jpeg',caption="5 word formate", use_column_width=True)
+        col2.image('images/6.jpeg',caption="6 word formate", use_column_width=True)
 
     # Profile Picture
     expander = st.expander("ارفع صورتك الشخصية")
@@ -199,7 +201,7 @@ left: 0;
 bottom: 0;
 width: 100%;
 background-color: white;
-color: black;
+color: grey;
 text-align: center;
 }
 </style>
