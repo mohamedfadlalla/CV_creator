@@ -187,14 +187,14 @@ background-color: transparent;
 text-decoration: underline;
 }
 
-a:hover,  a:active {
-color: red;
-background-color: transparent;
-text-decoration: underline;
-}
+# a:hover,  a:active {
+# color: red;
+# background-color: transparent;
+# text-decoration: underline;
+# }
 
 .footer {
-position: fixed;
+# position: bottom;
 left: 0;
 bottom: 0;
 width: 100%;
@@ -207,4 +207,6 @@ text-align: center;
 <p>Developed by <a style='display: block; text-align: center;' href="https://www.linkedin.com/in/mohamed-fadlalla-ds/" target="_blank">M.Fadlalla </a></p>
 </div>
 """
-    #st.markdown(footer,unsafe_allow_html=True)
+
+    # footer = "<footer><p>Mohamed</p></footer>"
+    st.markdown(footer,unsafe_allow_html=True)
