@@ -1,5 +1,6 @@
 import streamlit as st
 import filestack
+import datetime
 import os
 
 total = 0
@@ -43,7 +44,11 @@ def create_cv():
         email = st.text_input("الايميل")
         phone = st.text_input("رقم الهاتف المحمول")
         address = st.text_input("العنوان")
-
+        birth_day = st.date_input("when is your birth day", min_value=datetime.date(1900,1,1))
+        title = st.text_input("المسمي الوظيفي")
+        linkedin = st.text_input("ادخل رابط صفحتك علي اللينكدان") 
+        profile_picture = st.file_uploader("Upload your profile picture", type=["jpg", "jpeg", "png"])
+        
     # Skills
     expander = st.expander("المهارات")
     with expander:
@@ -70,8 +75,9 @@ def create_cv():
         with st.form("الخبرة", clear_on_submit=True):
             occupation = st.text_input("المسمي الوظيفي")
             company = st.text_input("الشركة / المواسسة")
+            where = st.text_input("منطقة العمل")
             job_description = st.text_area("تكلم في ما لا يقل عن ثلاث نقاط عن مهام وظيفتك")
-            start_date = st.date_input("تاريخ البداْ")
+            start_date = st.date_input("تاريخ البداْ", min_value=datetime.date(1900,1,1))
             work_here = st.checkbox("أعمل هنا")
             end_date = st.date_input("تاريخ الانتهاْ (دعه فارغا اذا كنت تعمل هتا)")
             # Every form must have a submit button.
@@ -93,17 +99,11 @@ def create_cv():
                     f.write(f'{Langauge},{Level}\n')
                 st.write("Submit successfully, submit another if you want!")
     
-    expander = st.expander("عنك")    
+    expander = st.expander("تكلم عن نفسك")    
     with expander:
         #self
         aself = st.text_input("تكلم عن نفسك واهتماماتك")
-    
 
-
-    # templates
-    expander = st.expander("Linkedin")    
-    with expander: 
-        linkedin = st.text_input("ادخل رابط صفحتك علي اللينكدان")   
 
 
 
@@ -125,19 +125,14 @@ def create_cv():
         #self
         Other= st.text_input("ادخل اي اضافات اخري ")
 
-    # Profile Picture
-    expander = st.expander("ارفع صورتك الشخصية")
-    with expander:
-        profile_picture = st.file_uploader("Upload your profile picture", type=["jpg", "jpeg", "png"])
-    
-
-
     if st.button("ارسل البيانات"):
         with open(f"{full_name}.txt", "w") as f:
             if expander.expanded:
                 f.write("Full Name: " + full_name + "\n")
+                f.write("Title: " + title + "\n")
                 f.write("Email: " + email + "\n")
                 f.write("Phone Number: " + phone + "\n")
+                f.write("linkedin: " + linkedin + "\n")
                 f.write("address: " + address + "\n")
             if expander.expanded:
                 f.write("Skills: " + skills + "\n")            
