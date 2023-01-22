@@ -10,11 +10,15 @@ sp = 7*'#'
 
 
 def get_total(package):
-    if len(package) == 1:
+    if package == "ترجمة":
+        return 1300
+    elif package == 'سيرة ذاتية باللغة الانجليزية':
         return 800
-    elif len(package) == 2:
+    elif package == ' سيرة ذاتية باللغة العربية':
+        return 800
+    elif package =='سيرة ذاتية باللغتين':
         return 1500
-
+        
 def create_cv():
     st.set_page_config(page_title="CV Creator", page_icon=":guardsman:", layout="wide")
     st.image('images/banner.jpeg',use_column_width='auto')
@@ -31,42 +35,46 @@ def create_cv():
 
     expander = st.expander("الخدمة")    
     with expander:
-        package = st.multiselect("Package", ['CV in english', 'CV in Arabic'])
+        package = st.selectbox("Package", ['سيرة ذاتية باللغتين' ,"ترجمة" ,'سيرة ذاتية باللغة الانجليزية' , ' سيرة ذاتية باللغة العربية'])
   
         if package:
             total = get_total(package)
+            st.write(total)
 
 
     # Basic Information
-    expander = st.expander("معلومات اساسية")
+    expander = st.expander("معلومات أساسية")
     with expander:
         full_name = st.text_input("الاسم بالكامل")
         email = st.text_input("الايميل")
-        phone = st.text_input("رقم الهاتف المحمول")
+        phone = st.text_input("رقم الهاتف")
         address = st.text_input("العنوان")
-        birth_day = st.date_input("when is your birth day", min_value=datetime.date(1900,1,1))
-        title = st.text_input("المسمي الوظيفي")
-        linkedin = st.text_input("ادخل رابط صفحتك علي اللينكدان") 
+        birth_day = st.date_input("أدخل تاريخ ميلادك", min_value=datetime.date(1900,1,1))
+        title = st.text_input("المسمى الوظيفي")
+        linkedin = st.text_input("ادخل رابط صفحتك على اللينكدان") 
         profile_picture = st.file_uploader("Upload your profile picture", type=["jpg", "jpeg", "png"])
         
     # Skills
     expander = st.expander("المهارات")
     with expander:
-        skills = st.text_area("ادخل ماهاراتك مفصولة بفاصل ")
+        skills = st.text_area("ادخل مهاراتك مفصولة بفاصل ")
 
     expander = st.expander("التعليم")    
     with expander:
         #Education
         with st.form("التعليم", clear_on_submit=True):
-            degree = st.selectbox("Degree", ['Course','Primary school', 'bachelor degree','master degree', 'PhD'])
+            degree = st.selectbox("الدرجة العلمية", ['Course','Secondary school', 'Diploma', 'bachelor degree','master degree', 'PhD'])
             field_of_study = st.text_input("مجال الدراسة")
             school_name = st.text_input("أسم الجامعة \ المدرسة")
+            dis_edu = st.text_input("يمكنك إضافة المعدل التراكمي أو بحث التخرج")
+            score = st.text_input("المعدل التراكمي")
             graduation_year = st.date_input("سنة التخريج")
+
             # Every form must have a submit button.
             submitted = st.form_submit_button("حفظ")
             if submitted:
                 with open(full_name+'_education.txt', "a+") as f:
-                    f.write(f'{degree},{field_of_study},{school_name},{graduation_year}\n')
+                    f.write(f'{degree}, {field_of_study}, {school_name}, {graduation_year}, {score}\n{dis_edu}\n')
                 st.write("Submit successfully, submit another if you want!")
  
     expander = st.expander("الخبرة")    
@@ -74,7 +82,7 @@ def create_cv():
         #Experience/Occupation
         with st.form("الخبرة", clear_on_submit=True):
             occupation = st.text_input("المسمي الوظيفي")
-            company = st.text_input("الشركة / المواسسة")
+            company = st.text_input("الشركة / المؤسسة")
             where = st.text_input("منطقة العمل")
             job_description = st.text_area("تكلم في ما لا يقل عن ثلاث نقاط عن مهام وظيفتك")
             start_date = st.date_input("تاريخ البداْ", min_value=datetime.date(1900,1,1))
@@ -86,12 +94,13 @@ def create_cv():
                 with open(full_name+'_Experience.txt', "a+") as f:
                     f.write(f'{occupation},{company},{job_description},{start_date},{work_here},{end_date}\n')
                 st.write("Submit successfully, submit another if you want!")
+    
     expander = st.expander("اللغة")    
     with expander:
         #langauge
         with st.form("اللغة", clear_on_submit=True):
             Langauge = st.text_input("اللغة")
-            Level = st.selectbox("Degree", ['Beginner','Elementary', 'Intermediate','Advance', 'Native'])
+            Level = st.selectbox("المستوى", ['Beginner','Elementary', 'Intermediate','Advance', 'Native'])
             # Every form must have a submit button.
             submitted = st.form_submit_button("حفظ")
             if submitted:
@@ -102,7 +111,7 @@ def create_cv():
     expander = st.expander("تكلم عن نفسك")    
     with expander:
         #self
-        aself = st.text_input("تكلم عن نفسك واهتماماتك")
+        aself = st.text_input("تحدث عن نفسك واهتماماتك")
 
 
 
@@ -116,14 +125,14 @@ def create_cv():
         col2.image('images/2.jpeg',caption=2, use_column_width=True)
         col1.image('images/3.jpeg',caption=3, use_column_width=True)
         col2.image('images/4.jpeg',caption=4, use_column_width=True)
-        col1.image('images/5.jpeg',caption="5 word formate", use_column_width=True)
-        col2.image('images/6.jpeg',caption="6 word formate", use_column_width=True)
+        col1.image('images/5.jpeg',caption="5 word format", use_column_width=True)
+        col2.image('images/6.jpeg',caption="6 word format", use_column_width=True)
 
     #Others
     expander = st.expander("أخري")    
     with expander:
         #self
-        Other= st.text_input("ادخل اي اضافات اخري ")
+        Other= st.text_input("ادخل أي إضافات أخرى ")
 
     if st.button("ارسل البيانات"):
         with open(f"{full_name}.txt", "w") as f:
@@ -207,7 +216,7 @@ def create_cv():
                 filelink = client.upload(filepath=f'{file}', store_params=store_params)
             except:
                 print('no picture')
-        total = 0
+        # total = 0
         st.success(f"Your total is **{total}** SDG")
         st.success("تم استلام الطلب ، اتصل بنا على الواتساب للتأكيد 0125836305")
 
