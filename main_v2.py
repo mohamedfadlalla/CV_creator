@@ -66,7 +66,7 @@ def create_cv():
             degree = st.selectbox("الدرجة العلمية", ['Course','Secondary school', 'Diploma', 'bachelor degree','master degree', 'PhD'])
             field_of_study = st.text_input("مجال الدراسة")
             school_name = st.text_input("أسم الجامعة \ المدرسة")
-            dis_edu = st.text_input("يمكنك إضافة المعدل التراكمي أو بحث التخرج")
+            dis_edu = st.text_input("بحث التخرج")
             score = st.text_input("المعدل التراكمي")
             graduation_year = st.date_input("سنة التخريج")
 
@@ -75,7 +75,7 @@ def create_cv():
             if submitted:
                 with open(full_name+'_education.txt', "a+") as f:
                     f.write(f'{degree}, {field_of_study}, {school_name}, {graduation_year}, {score}\n{dis_edu}\n')
-                st.write("Submit successfully, submit another if you want!")
+                st.write("Submission successfull, submit another if you want!")
  
     expander = st.expander("الخبرة")    
     with expander:
@@ -84,7 +84,7 @@ def create_cv():
             occupation = st.text_input("المسمي الوظيفي")
             company = st.text_input("الشركة / المؤسسة")
             where = st.text_input("منطقة العمل")
-            job_description = st.text_area("تكلم في ما لا يقل عن ثلاث نقاط عن مهام وظيفتك")
+            job_description = st.text_area("تحدث في ما لا يقل عن ثلاث نقاط عن مهام وظيفتك")
             start_date = st.date_input("تاريخ البداْ", min_value=datetime.date(1900,1,1))
             work_here = st.checkbox("أعمل هنا")
             end_date = st.date_input("تاريخ الانتهاْ (دعه فارغا اذا كنت تعمل هتا)")
@@ -93,7 +93,7 @@ def create_cv():
             if submitted:
                 with open(full_name+'_Experience.txt', "a+") as f:
                     f.write(f'{occupation},{company},{job_description},{start_date},{work_here},{end_date}\n')
-                st.write("Submit successfully, submit another if you want!")
+                st.write("Submission successfull, submit another if you want!")
     
     expander = st.expander("اللغة")    
     with expander:
@@ -106,9 +106,9 @@ def create_cv():
             if submitted:
                 with open(full_name+'_Langauge.txt', "a+") as f:
                     f.write(f'{Langauge},{Level}\n')
-                st.write("Submit successfully, submit another if you want!")
+                st.write("Submission successfull, submit another if you want!")
     
-    expander = st.expander("تكلم عن نفسك")    
+    expander = st.expander("تحدث عن نفسك")    
     with expander:
         #self
         aself = st.text_input("تحدث عن نفسك واهتماماتك")
@@ -132,7 +132,7 @@ def create_cv():
     expander = st.expander("أخري")    
     with expander:
         #self
-        Other= st.text_input("ادخل أي إضافات أخرى ")
+        other= st.text_input("ادخل أي إضافات أخرى ")
 
     if st.button("ارسل البيانات"):
         with open(f"{full_name}.txt", "w") as f:
@@ -196,7 +196,7 @@ def create_cv():
                         p.write(profile_picture.getbuffer())
 
 
-
+ 
         APIKEY = st.secrets["FILESTACK"]
         client = filestack.Client(APIKEY)
 
