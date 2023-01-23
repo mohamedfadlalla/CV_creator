@@ -10,14 +10,12 @@ sp = 7*'#'
 
 
 def get_total(package):
-    if package == "ترجمة":
-        return 1300
-    elif package == 'سيرة ذاتية باللغة الانجليزية':
-        return 800
+    if package == 'سيرة ذاتية باللغة الانجليزية':
+        return 1500, "Enter your details in english"
     elif package == ' سيرة ذاتية باللغة العربية':
-        return 800
+        return 1500, "ادخل بياناتك بالغة العربية"
     elif package =='سيرة ذاتية باللغتين':
-        return 1500
+        return 3000, None
         
 def create_cv():
     st.set_page_config(page_title="CV Creator", page_icon=":guardsman:", layout="wide")
@@ -35,11 +33,12 @@ def create_cv():
 
     expander = st.expander("الخدمة")    
     with expander:
-        package = st.selectbox("Package", ['سيرة ذاتية باللغتين' ,"ترجمة" ,'سيرة ذاتية باللغة الانجليزية' , ' سيرة ذاتية باللغة العربية'])
+        package = st.selectbox("Package", ['سيرة ذاتية باللغتين' ,'سيرة ذاتية باللغة الانجليزية' , ' سيرة ذاتية باللغة العربية'])
   
         if package:
-            total = get_total(package)
-            st.write(total)
+            total, msg = get_total(package)
+            st.write(f"Total = {total}")
+            st.write(msg)
 
 
     # Basic Information
