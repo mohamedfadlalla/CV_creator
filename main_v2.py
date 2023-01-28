@@ -119,8 +119,8 @@ def create_cv():
         with st.form("عمل تطوعي", clear_on_submit=True):
             title_volunteer = st.text_input("المسمي الوظيفي")
             description_volunteer = st.text_input("تحدث في ما لا يقل عن ثلاث نقاط عن مهام وظيفتك")
-            start_volunteer = st.text_input("أدخل تاريخ بدء التطوع")
-            end_volunteer = st.text_input("أدخل تاريخ انتهاء التطوع")
+            start_volunteer = st.date_input("أدخل تاريخ بدء التطوع")
+            end_volunteer = st.date_input("أدخل تاريخ انتهاء التطوع")
 
 
             # Every form must have a submit button.
@@ -245,12 +245,12 @@ def create_cv():
                 f.write("Email: " + email + "\n")
                 f.write("Phone Number: " + phone + "\n")
                 f.write("linkedin: " + linkedin + "\n")
-                f.write("address: " + address + "\n")
+                f.write("address: " + address + "\n\n")
             if expander.expanded:
-                f.write("Skills: " + skills + "\n")            
+                f.write("Skills: " + skills + "\n\n")            
             if expander.expanded:
                 f.write(f"Packages:  {package} \n")
-                f.write(f"template:  {template} \n")
+                f.write(f"template:  {template} \n\n")
             #submit education
             if expander.expanded:
                 try:
@@ -314,7 +314,7 @@ def create_cv():
                 try:
                     f.write(f'{sp}Cirtificates section{sp}\n')
                     f.write(open(full_name+'_Cirtificates.txt').read())
-                    f.write(f'{sp}{sp}{sp}\n')
+                    f.write(f'\n{sp}{sp}{sp}\n')
                 except FileNotFoundError:
                     f.write(f'{sp}\nNo Cirtificates \n{sp}\n\n')
 
@@ -327,7 +327,7 @@ def create_cv():
 
             try:
                 f.write(f'{sp}Self section{sp}\n')
-                f.write(aself)
+                f.write(f"{aself}\n")
                 f.write(f'{sp}{sp}{sp}\n')
             except FileNotFoundError:
                 f.write(f'{sp}\nNo Self \n{sp}\n\n')
