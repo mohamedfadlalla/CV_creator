@@ -1,13 +1,11 @@
 import streamlit as st
 import filestack
 import datetime
+from my_styles import *
 import os
 
 total = 0
 sp = 7*'#'
-
-
-
 
 def get_total(package):
     if package == 'سيرة ذاتية باللغة الانجليزية':
@@ -22,15 +20,9 @@ def create_cv():
     st.image('images/banner.jpeg',use_column_width='auto')
     st.title("CV Creator")
 
-
-    hide_streamlit_style = """
-            <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            </style>
-            """
     st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
+    #Packages
     expander = st.expander("الخدمة")    
     with expander:
         package = st.selectbox("Package", ['سيرة ذاتية باللغتين' ,'سيرة ذاتية باللغة الانجليزية' , ' سيرة ذاتية باللغة العربية'])
@@ -39,7 +31,6 @@ def create_cv():
             total, msg = get_total(package)
             st.write(f"Total = {total}")
             st.write(msg)
-
 
     # Basic Information
     expander = st.expander("معلومات أساسية")
@@ -58,9 +49,9 @@ def create_cv():
     with expander:
         skills = st.text_area("ادخل مهاراتك مفصولة بفاصل ")
 
+    #Education
     expander = st.expander("التعليم")    
     with expander:
-        #Education
         with st.form("التعليم", clear_on_submit=True):
             degree = st.selectbox("الدرجة العلمية", ['Course','Secondary school', 'Diploma', 'bachelor degree','master degree', 'PhD'])
             field_of_study = st.text_input("مجال الدراسة")
@@ -76,9 +67,9 @@ def create_cv():
                     f.write(f'{degree}, {field_of_study}, {school_name}, {graduation_year}, {score}\n{dis_edu}\n')
                 st.write("Submission successfull, submit another if you want!")
  
+    #Experience/Occupation
     expander = st.expander("الخبرة")    
     with expander:
-        #Experience/Occupation
         with st.form("الخبرة", clear_on_submit=True):
             occupation = st.text_input("المسمي الوظيفي")
             company = st.text_input("الشركة / المؤسسة")
@@ -94,9 +85,120 @@ def create_cv():
                     f.write(f'{occupation},{company},{job_description},{start_date},{work_here},{end_date}\n')
                 st.write("Submission successfull, submit another if you want!")
     
-    expander = st.expander("اللغة")    
+    #Publications
+    expander = st.expander("الأوراق العلمية")    
     with expander:
-        #langauge
+        with st.form("أوراق علمية", clear_on_submit=True):
+            title_publicaiton = st.text_input("عنوان الورقة العلمية")
+            publisher = st.text_input("دار نشر")
+            year = st.text_input("سنة النشر")
+            # Every form must have a submit button.
+            submitted = st.form_submit_button("حفظ")
+            if submitted:
+                with open(full_name+'_Publicaitons.txt', "a+") as f:
+                    f.write(f'{title_publicaiton}--{publisher}--{year}\n')
+                st.write("Submission successfull, submit another if you want!")
+    
+    #Projects
+    expander = st.expander("المشاريع")    
+    with expander:
+        with st.form("المشاريع", clear_on_submit=True):
+            title_project = st.text_input("أدخل عنوان مشروعك")
+            description_project = st.text_input("تحدث في ما لا يقل عن ثلاث نقاط عن مشروعك")
+            date_project = st.date_input("تاريخ البداْ")
+            # Every form must have a submit button.
+            submitted = st.form_submit_button("حفظ")
+            if submitted:
+                with open(full_name+'_Projects.txt', "a+") as f:
+                    f.write(f'{title_project}--{date_project}\n{description_project}\n')
+                st.write("Submission successfull, submit another if you want!")
+
+    #Volunteering
+    expander = st.expander("عمل تطوعي")    
+    with expander:
+        with st.form("عمل تطوعي", clear_on_submit=True):
+            title_volunteer = st.text_input("المسمي الوظيفي")
+            description_volunteer = st.text_input("تحدث في ما لا يقل عن ثلاث نقاط عن مهام وظيفتك")
+            start_volunteer = st.text_input("أدخل تاريخ بدء التطوع")
+            end_volunteer = st.text_input("أدخل تاريخ انتهاء التطوع")
+
+
+            # Every form must have a submit button.
+            submitted = st.form_submit_button("حفظ")
+            if submitted:
+                with open(full_name+'_Volunteer.txt', "a+") as f:
+                    f.write(f'Volunteering:  {title_volunteer}--{start_volunteer}--{start_volunteer}\n{description_volunteer}\n')
+                st.write("Submission successfull, submit another if you want!")
+
+    #Recommendations 
+    expander = st.expander("التوصيات")    
+    with expander:
+        with st.form("التوصيات", clear_on_submit=True):
+            name_recommend = st.text_input("الأسم")
+            role_recommend = st.text_input("المسمي الوظيفي")
+            email_recommend = st.text_input("البريد الالكتروني")
+            phone_recommend = st.text_input("رقم الهاتف")
+            description_recommend = st.text_input("الوصف")
+
+            # Every form must have a submit button.
+            submitted = st.form_submit_button("حفظ")
+            if submitted:
+                with open(full_name+'_Recommendations.txt', "a+") as f:
+                    f.write(f'Recommendation:  {name_recommend}--{role_recommend}--{email_recommend}--{phone_recommend}\n{description_recommend}')
+                st.write("Submission successfull, submit another if you want!")
+
+
+    # #Networks and memberships 
+    # expander = st.expander("Networks and memberships ")    
+    # with expander:
+    #     with st.form("memberships ", clear_on_submit=True):
+    #         title_membership = st.text_input("Enter title of your memberships")
+    #         description_membership = st.text_input("Describ your memberships")
+    #         from_membership = st.date_input("From")
+    #         to_membership = st.date_input("To")
+    #         Ongoing_membership = st.radio("On going", ["yes", "no"])
+    #         # Every form must have a submit button.
+    #         submitted = st.form_submit_button("حفظ")
+    #         if submitted:
+    #             with open(full_name+'_Networks.txt', "a+") as f:
+    #                 f.write(f'{title_membership}\n{description_membership}\n{from_membership}--{to_membership}--{Ongoing_membership}')
+    #             st.write("Submission successfull, submit another if you want!")
+
+    #honours and awards
+    expander = st.expander("الأوسمة والجوائز")    
+    with expander:
+        with st.form("honours and awards", clear_on_submit=True):
+            title_award = st.text_input("اسم الجائزة")
+            Awarding_institution = st.text_input("المؤسسة المانحة")
+            award_date = st.date_input("تاريخ الجائزة")
+            award_description = st.text_input("وصف")
+
+            # Every form must have a submit button.
+            submitted = st.form_submit_button("حفظ")
+            if submitted:
+                with open(full_name+'_awards.txt', "a+") as f:
+                    f.write(f'{title_award}--{Awarding_institution}--{award_date}\n{award_description}\n')
+                st.write("Submission successfull, submit another if you want!")
+
+    #Cirtificates
+    expander = st.expander("الشهادات")    
+    with expander:
+        with st.form("الشهادات", clear_on_submit=True):
+            title_Cirtificates = st.text_input("أدخل عنوان الشهادة الخاصة بك")
+            description_Cirtificates = st.text_input("صِف شهاداتك")
+            year_Cirtificates = st.text_input("تاريخ المنح")
+
+            # Every form must have a submit button.
+            submitted = st.form_submit_button("حفظ")
+            if submitted:
+                with open(full_name+'_Cirtificates.txt', "a+") as f:
+                    f.write(f'Cirtificates:  {title_Cirtificates}--{year_Cirtificates}\n{description_Cirtificates}\n')
+                st.write("Submission successfull, submit another if you want!")
+
+    #langauge 
+    expander = st.expander("اللغة")   
+    with expander:
+       
         with st.form("اللغة", clear_on_submit=True):
             Langauge = st.text_input("اللغة")
             Level = st.selectbox("المستوى", ['Beginner','Elementary', 'Intermediate','Advance', 'Native'])
@@ -107,9 +209,10 @@ def create_cv():
                     f.write(f'{Langauge},{Level}\n')
                 st.write("Submission successfull, submit another if you want!")
     
-    expander = st.expander("تحدث عن نفسك")    
+    #self   
+    expander = st.expander("تحدث عن نفسك") 
     with expander:
-        #self
+        
         aself = st.text_input("تحدث عن نفسك واهتماماتك")
 
 
@@ -132,6 +235,7 @@ def create_cv():
     with expander:
         #self
         other= st.text_input("ادخل أي إضافات أخرى ")
+
 
     if st.button("ارسل البيانات"):
         with open(f"{full_name}.txt", "w") as f:
@@ -172,6 +276,47 @@ def create_cv():
                     f.write(f'{sp}{sp}{sp}\n')
                 except FileNotFoundError:
                     f.write(f'{sp}\nNo Experience \n{sp}\n\n')
+
+
+            if expander.expanded:
+                try:
+                    f.write(f'{sp}Project section{sp}\n')
+                    f.write(open(full_name+'_Projects.txt').read())
+                    f.write(f'{sp}{sp}{sp}\n')
+                except FileNotFoundError:
+                    f.write(f'{sp}\nNo Project \n{sp}\n\n')
+
+            if expander.expanded:
+                try:
+                    f.write(f'{sp}Volunteering section{sp}\n')
+                    f.write(open(full_name+'_Volunteer.txt').read())
+                    f.write(f'{sp}{sp}{sp}\n')
+                except FileNotFoundError:
+                    f.write(f'{sp}\nNo Volunteering \n{sp}\n\n')
+
+            if expander.expanded:
+                try:
+                    f.write(f'{sp}Publicaitons section{sp}\n')
+                    f.write(open(full_name+'_Publicaitons.txt').read())
+                    f.write(f'{sp}{sp}{sp}\n')
+                except FileNotFoundError:
+                    f.write(f'{sp}\nNo Publicaitons \n{sp}\n\n')
+
+            if expander.expanded:
+                try:
+                    f.write(f'{sp}Recommendations section{sp}\n')
+                    f.write(open(full_name+'_Recommendations.txt').read())
+                    f.write(f'{sp}{sp}{sp}\n')
+                except FileNotFoundError:
+                    f.write(f'{sp}\nNo Recommendations \n{sp}\n\n')
+
+            if expander.expanded:
+                try:
+                    f.write(f'{sp}Cirtificates section{sp}\n')
+                    f.write(open(full_name+'_Cirtificates.txt').read())
+                    f.write(f'{sp}{sp}{sp}\n')
+                except FileNotFoundError:
+                    f.write(f'{sp}\nNo Cirtificates \n{sp}\n\n')
 
             try:
                 f.write(f'{sp}Other section{sp}\n')
@@ -217,39 +362,10 @@ def create_cv():
                 print('no picture')
         # total = 0
         st.success(f"Your total is **{total}** SDG")
-        st.success("تم استلام الطلب ، اتصل بنا على الواتساب للتأكيد 0125836305")
+        st.success("تم استلام الطلب ، تواصل معنا على الواتساب للتأكيد 0125836305")
 
 
 
 if __name__=="__main__":
     create_cv()
-    footer="""<style>
-a:link , a:visited{
-color: blue;
-background-color: transparent;
-text-decoration: underline;
-}
-
-# a:hover,  a:active {
-# color: red;
-# background-color: transparent;
-# text-decoration: underline;
-# }
-
-.footer {
-# position: bottom;
-left: 0;
-bottom: 0;
-width: 100%;
-background-color: white;
-color: grey;
-text-align: center;
-}
-</style>
-<div class="footer">
-<p>Developed by <a style='display: block; text-align: center;' href="https://www.linkedin.com/in/mohamed-fadlalla-ds/" target="_blank">M.Fadlalla </a></p>
-</div>
-"""
-
-    # footer = "<footer><p>Mohamed</p></footer>"
     st.markdown(footer,unsafe_allow_html=True)
